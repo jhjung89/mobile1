@@ -10,6 +10,7 @@ public class CharacterStat : MonoBehaviour
     public int damage = 5;
     public int cost = 130;
     public int upgradeCost = 200;
+    public float coolTime = 2.0f;
     // 레벨업이 가능한지 여부를 반환한다.
 
     // 캐릭터 타워를 설치할 수 있는지 여부 

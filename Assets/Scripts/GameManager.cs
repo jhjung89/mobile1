@@ -18,6 +18,53 @@ public class GameManager : MonoBehaviour
     public int reward = 500; // 라운드 클리어 시 
     public float spawnTime = 2.5f;
     public int spawnNumber = 5;
+    private AudioSource audioSource;
+
+    public int nowSelect;
+    public Image select1;
+    public Image select2;
+
+    public Text clearText;
+    public Text lifeText;
+
+    public int life = 10;
+    public Text loseText;
+    public GameObject respawnSpot;
+
+    public int decreaseLife()
+    {
+        if(life >= 1)
+        {
+            life--;
+            lifeText.text = ": " + life;
+            if(life == 0)
+            {
+                loseText.enabled = true;
+                respawnSpot.GetComponent<CreateMonster>().enabled = false;
+            }
+        }
+        return life;
+    }
+    public void gameClear()
+    {
+        clearText.enabled = true;
+    }
+
+    public void select(int number)
+    {
+        if( number == 1)
+        {
+            nowSelect = 1;
+            select1.GetComponent<Image>().color = Color.gray;
+            select2.GetComponent<Image>().color = Color.white;
+        }
+        else if (number == 2)
+        {
+            nowSelect = 2;
+            select1.GetComponent<Image>().color = Color.white;
+            select2.GetComponent<Image>().color = Color.gray;
+        }
+    }
 
     public void clearRound()
     {
@@ -32,7 +79,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private AudioSource audioSource;
+    
     
     public void nextRound()
     {
@@ -65,9 +112,13 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        clearText.enabled = false;
+        loseText.enabled = false;
+        select(1);
         audioSource = roundStartText.GetComponent<AudioSource>();
         updateText();
         nextRound();
+        lifeText.text = life.ToString();
     }
 
     void Update()

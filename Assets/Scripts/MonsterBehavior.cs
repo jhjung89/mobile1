@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor.UI;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MonsterBehavior : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class MonsterBehavior : MonoBehaviour
 
     private float lastAttackTime;
     private CharacterStat targetStat;
+    private GameManager gameManager;
+
+    public bool died = false;
 
 
     void Start()
@@ -19,22 +23,31 @@ public class MonsterBehavior : MonoBehaviour
         audiosource.PlayOneShot(audiosource.clip);
         animator = gameObject.GetComponent<Animator>();
         monsterStat = gameObject.GetComponent<MonsterStat>();
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         
     }
 
     void Update()
     {
-        transform.Translate(Vector2.left * 1 * Time.deltaTime);
-
-        if (attacking)
+        if (died)
         {
-            transform.Translate(Vector2.right * monsterStat.speed * Time.deltaTime);
-        }
-        if (targetStat != null && targetStat.hp <= 0)
-        {
-            targetStat = null;
             attacking = false;
-            animator.SetTrigger("Walk");
+            gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        }
+        else
+        {
+            transform.Translate(Vector2.left * monsterStat.speed * Time.deltaTime);
+
+            if (attacking)
+            {
+                transform.Translate(Vector2.right * monsterStat.speed * Time.deltaTime);
+            }
+            if (targetStat != null && targetStat.hp <= 0)
+            {
+                targetStat = null;
+                attacking = false;
+                animator.SetTrigger("Walk");
+            }
         }
     }
 
@@ -43,6 +56,7 @@ public class MonsterBehavior : MonoBehaviour
         if(other.gameObject.name == "Fence")
         {
             Destroy(gameObject);
+            gameManager.decreaseLife();
         }
         else if(other.gameObject.tag == "Character")
         {

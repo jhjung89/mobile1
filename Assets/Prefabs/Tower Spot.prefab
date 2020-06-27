@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 239592383
+  m_SortingLayerID: 403146335
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 588de7c2a921c404a8143f1fe51928ad, type: 3}
@@ -149,7 +149,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d5aa4776bc6a5044b1682f2c2c76c65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterPrefab: {fileID: 171426349997078251, guid: cfdfef503abf29041a0343f14f675594,
+  characterPrefab1: {fileID: 171426349997078251, guid: cfdfef503abf29041a0343f14f675594,
+    type: 3}
+  characterPrefab2: {fileID: 1351628949799238, guid: b05fd262e6e0fc04aa18f4a861a88325,
     type: 3}
 --- !u!82 &9121018529348152548
 AudioSource:

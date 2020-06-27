@@ -6,24 +6,46 @@ public class HPBar : MonoBehaviour
 {
     public GameObject image;
     public GameObject character;
+    public GameObject parent;
     private CharacterStat characterStat;
+    private MonsterStat monsterStat;
 
     public float max = 100;
     public float current = 100;
     private float scale;
-   
+
+    private int maxHp = 100;
+    private int hp = 100;
     void Start()
     {
         scale = image.transform.localScale.x;
         characterStat = character.GetComponent<CharacterStat>();
+        if (parent.name.Contains("Character"))
+        {
+            characterStat = parent.GetComponent<CharacterStat>();
+        }
+        else if (parent.name.Contains("Monster"))
+        {
+            monsterStat = parent.GetComponent<MonsterStat>();
+        }
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        int maxHp = characterStat.maxHp;
-        int hp = characterStat.hp;
+        if(characterStat != null)
+        {
+            maxHp = characterStat.maxHp;
+            hp = characterStat.hp;
+        }
+
+        else if (monsterStat != null)
+        {
+            maxHp = monsterStat.maxHp;
+            hp = monsterStat.hp;
+        }
+        
         current = (float)hp / (float)maxHp * 100;
         if(current < 0)
         {

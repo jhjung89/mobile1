@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class CreateCharacter : MonoBehaviour
 {
-    public GameObject characterPrefab;
+    public GameObject characterPrefab1;
+    public GameObject characterPrefab2;
+    private GameObject characterPrefab;
     private GameObject character;
     private AudioSource audioSource;
     private GameManager gameManager;
+    private CharacterStat characterStat;
 
 
     void Start()
@@ -23,7 +26,19 @@ public class CreateCharacter : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if(character == null)
+        if(gameManager.nowSelect == 1)
+        {
+            characterPrefab = characterPrefab1;
+            characterStat = characterPrefab.GetComponent<CharacterStat>();
+        }
+
+        else if (gameManager.nowSelect == 2)
+        {
+            characterPrefab = characterPrefab2;
+            characterStat = characterPrefab.GetComponent<CharacterStat>();
+        }
+
+        if (character == null)
         {
             CharacterStat characterStat = characterPrefab.GetComponent<CharacterStat>();
             if (characterStat.canCreate(gameManager.seed))

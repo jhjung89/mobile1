@@ -12,7 +12,7 @@ public class CreateMonster : MonoBehaviour
     public GameObject respawnSpot4;
 
     public GameObject monster1Prefab;
-    // public GameObject monster2Prefab;
+    public GameObject monster2Prefab;
 
     private GameObject monsterPrefab;
 
@@ -62,9 +62,22 @@ public class CreateMonster : MonoBehaviour
             if(spawnCount == gameManager.spawnNumber &&
                 GameObject.FindGameObjectWithTag("Monster") == null)
             {
+                if(gameManager.totalRound == gameManager.round)
+                {
+                    gameManager.gameClear();
+                    gameManager.round += 1; // 이건 왜 해주는가
+                    return;
+                }
                 gameManager.clearRound();
                 spawnCount = 0;
                 lastSpawnTime = Time.time;
+
+                if( gameManager.round == 4)
+                {
+                    monsterPrefab = monster2Prefab;
+                    gameManager.spawnTime = 2.0f;
+                    gameManager.spawnNumber = 10;
+                }
             }
         }
         
