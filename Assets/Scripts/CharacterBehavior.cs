@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CharacterBehavior : MonoBehaviour
 {
@@ -37,7 +38,10 @@ public class CharacterBehavior : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if(characterStat.canLevelUp(gameManager.seed))
+        if (EventSystem.current.IsPointerOverGameObject(-1) == true) return;
+        if (EventSystem.current.IsPointerOverGameObject(0) == true) return;
+
+        if (characterStat.canLevelUp(gameManager.seed))
         {
             characterStat.increaseLevel();
             gameManager.seed -= characterStat.upgradeCost;
