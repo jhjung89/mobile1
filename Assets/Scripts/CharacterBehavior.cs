@@ -26,7 +26,8 @@ public class CharacterBehavior : MonoBehaviour
         animator.SetTrigger("Attack");
         audioSource.PlayOneShot(audioSource.clip);
         GameObject currentBullet = Instantiate(bullet, transform.position, Quaternion.identity);
-        currentBullet.GetComponent<bulletBehavior>().setDamage(damage);
+        currentBullet.GetComponent<bulletBehavior>().bulletStat
+            = new BulletStat(10 + characterStat.level * 3, characterStat.damage);
 
     }
 

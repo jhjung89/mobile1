@@ -4,25 +4,24 @@ using UnityEngine;
 
 public class bulletBehavior : MonoBehaviour
 {
-
-    public float speed = 10.0f;
     public GameObject character;
-    public int damage;
-    public void setDamage(int input)
+    public BulletStat bulletStat { get; set; }
+    
+    public bulletBehavior()
     {
-        damage = input;
+        bulletStat = new BulletStat(0, 0); // Start 함수전에 초기화하도록 하자
     }
+    
     void Start()
     {
         Destroy(gameObject, 3.0f);
-        
     }
     
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector2.right * speed * Time.deltaTime);
+        transform.Translate(Vector2.right * bulletStat.speed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -30,7 +29,7 @@ public class bulletBehavior : MonoBehaviour
         if(other.gameObject.tag == "Monster")
         {
             Destroy(gameObject);
-            other.GetComponent<MonsterStat>().attacked(damage);
+            other.GetComponent<MonsterStat>().attacked(bulletStat.damage);
         }
         
     }
