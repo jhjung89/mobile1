@@ -5,6 +5,16 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance { get; set; }
+    private void Awake() // MonoBehavior를 상속 받을 경우에는 Awake()함수를 사용하는게 좋다.
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+
 
     public Text seedText;
     public Text roundText;

@@ -5,7 +5,6 @@ using UnityEngine;
 public class CreateMonster : MonoBehaviour
 {
 
-    private GameManager gameManager;
 
     public List<GameObject> respawnSpotList;
 
@@ -19,7 +18,9 @@ public class CreateMonster : MonoBehaviour
 
     void Start()
     {
-        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        //GameManager.instance = GameObject.Find("Game Manager").GetComponent<GameManager>(); 
+        // 싱글톤 기법에 비해 리소스를 많이 잡아먹는다. 추가로, GameManager라는 파일명을 가진게 많다면 오류가 발생할 수 있다.
+
         monsterPrefab = monster1Prefab;
         lastSpawnTime = Time.time; // Time.time 현재 시간을 가져옮
 
@@ -28,12 +29,12 @@ public class CreateMonster : MonoBehaviour
 
     void Update()
     {
-        if(gameManager.round <= gameManager.totalRound)
+        if(GameManager.instance.round <= GameManager.instance.totalRound)
         {
             float timeGap = Time.time - lastSpawnTime;
-            if((spawnCount == 0 && timeGap > gameManager.roundReadyTime // 새 라운드 시작
-                || timeGap > gameManager.spawnTime)
-                && spawnCount < gameManager.spawnNumber)
+            if((spawnCount == 0 && timeGap > GameManager.instance.roundReadyTime // 새 라운드 시작
+                || timeGap > GameManager.instance.spawnTime)
+                && spawnCount < GameManager.instance.spawnNumber)
             {
                 lastSpawnTime = Time.time; // 다시 리스폰이 이뤄진거라 현재 시간으로 다시 초기화
                 int index = Random.Range(0, 4); // 시작 숫자 ~ 끝숫자-1 사이의 랜덤한 값이 생성된다.
@@ -42,24 +43,24 @@ public class CreateMonster : MonoBehaviour
                 Instantiate(monsterPrefab, respawnSpot.transform.position, Quaternion.identity);
                 spawnCount += 1;
             }
-            if(spawnCount == gameManager.spawnNumber &&
+            if(spawnCount == GameManager.instance.spawnNumber &&
                 GameObject.FindGameObjectWithTag("Monster") == null)
             {
-                if(gameManager.totalRound == gameManager.round)
+                if(GameManager.instance.totalRound == GameManager.instance.round)
                 {
-                    gameManager.gameClear();
-                    gameManager.round += 1; // 이건 왜 해주는가
+                    GameManager.instance.gameClear();
+                    GameManager.instance.round += 1; // 이건 왜 해주는가
                     return;
                 }
-                gameManager.clearRound();
+                GameManager.instance.clearRound();
                 spawnCount = 0;
                 lastSpawnTime = Time.time;
 
-                if( gameManager.round == 4)
+                if( GameManager.instance.round == 4)
                 {
                     monsterPrefab = monster2Prefab;
-                    gameManager.spawnTime = 2.0f;
-                    gameManager.spawnNumber = 10;
+                    GameManager.instance.spawnTime = 2.0f;
+                    GameManager.instance.spawnNumber = 10;
                 }
             }
         }
